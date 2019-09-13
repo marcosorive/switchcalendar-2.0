@@ -1,0 +1,29 @@
+{
+  "name": "news-aggreagtor-server",
+  "version": "1.0.0",
+  "description": "Server for simple news aggregator",
+  "main": "server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "nodemon ./src/server.ts",
+    "prod": "npm run build && npm run start"
+  },
+  "author": "Marcos Orive Izarra",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongodb": "^3.3.2",
+    "mongoose": "^5.7.0"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.5.17",
+    "@types/node": "^12.7.5",
+    "nodemon": "^1.19.2",
+    "ts-lint": "^4.5.1",
+    "ts-node": "^8.3.0",
+    "tslib": "^1.10.0",
+    "typescript": "^3.6.3"
+  }
+}
