@@ -18,14 +18,16 @@ export class App {
         this.app.listen(5000, () => {
             new Bootstrap().setup();
             this.config();
+            
         });
     }
 
     private config(): void {
         this.app.use(cors());
-        this.app.use(bodyParser.json());
+        this.app.disable('x-powered-by');
         //support application/x-www-form-urlencoded post data
-        this.app.use(bodyParser.urlencoded({ extended: false}));
+        this.app.use(express.urlencoded({ extended: false }));
+        this.app.use(express.json());
         //Setting the routes
         this.app.use('/api/games', Bootstrap.gameRoutes);
         //Connecting DB
