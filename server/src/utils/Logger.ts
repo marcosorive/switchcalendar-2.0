@@ -10,8 +10,8 @@ export const switchLogger = createLogger({
       // - Write all logs error (and below) to `error.log`.
       // - Write logs in simple fortmat to console.
       //
-      new transports.File({ filename: "../../log/error.log", level: "error" }),
-      new transports.File({ filename: "../../log/all_logs.log" }),
+      new transports.File({ filename: "logs/error.log", level: "error" }),
+      new transports.File({ filename: "logs/all_logs.log" }),
       new transports.Console({format: format.simple()})
     ]
 });

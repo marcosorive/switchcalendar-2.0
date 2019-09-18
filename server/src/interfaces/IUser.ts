@@ -5,4 +5,5 @@ export interface IUser extends mongoose.Document{
     email: string;
     password: string;
     joinDate: Date;
+    activeAccount: boolean;
 }

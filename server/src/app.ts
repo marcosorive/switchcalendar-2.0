@@ -8,11 +8,11 @@ import { Bootstrap } from "./Bootstrap";
 export class App {
 
     private readonly app: express.Application;
-    private readonly logger: Logger;
+    private logger: Logger;
 
     constructor() {
         this.app = express();
-        this.logger = Bootstrap.logger;
+        this.logger = undefined;
     }
 
     public startApp(): void {
@@ -32,9 +32,11 @@ export class App {
         this.app.use("/api/games", Bootstrap.gameRoutes);
         this.app.use("/api/users", Bootstrap.userRoutes);
 
+        this.logger = Bootstrap.logger;
+
         // Connecting DB
         mongoose.connect("mongodb://localhost:27017/switchcalendar", { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
-            .then(() => this.logger.log("info","MongoDB Connected!"))
+            .then(() => this.logger.log("info", "MongoDB Connected!"))
             .catch((error) => this.logger.log("error", "Error connecting MongoDB: " + error));
     }
 }
