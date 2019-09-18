@@ -1,14 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
+import {RegisterForm} from './components/RegisterForm';
 import './App.css';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="App">
-      <form >
-        <input type="text" />
-
-      </form>
+      <RegisterForm/>
     </div>
   );
 }
