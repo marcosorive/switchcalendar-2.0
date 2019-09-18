@@ -3,6 +3,6 @@ import { App } from "./app";
 
 try{
     new App().startApp();
-}catch(error){
+} catch (error) {
     console.log("Error in server.js: " + error);
 }

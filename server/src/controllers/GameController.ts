@@ -1,24 +1,23 @@
-"use strict"
 import { Request, Response } from "express";
-import {Bootstrap} from '../Bootstrap';
+import {Bootstrap} from "../Bootstrap";
 
-export class GameController{
+export class GameController {
 
-    public static async getAllGames(req: Request, res: Response): Promise<Response>{
+    public static async getAllGames(req: Request, res: Response): Promise<void> {
         try{
-            console.log(req)
+            console.log(req);
             res.send( await Bootstrap.gameService.getAllGames());
-        }catch(error){
+        } catch (error) {
             console.log(req);
             console.log(error);
         }
     }
 
-    public static insertTest(req: Request, res: Response): void{
+    public static insertTest(req: Request, res: Response): void {
         try{
             Bootstrap.gameService.insertTest();
-            res.send("Inserted ok!")
-        }catch(error){
+            res.send("Inserted ok!");
+        } catch (error) {
             console.log(req);
             console.log(error);
         }

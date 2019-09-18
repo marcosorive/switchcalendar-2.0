@@ -1,41 +1,34 @@
-"use strict";
-
-import { getGameRoutes } from "./routes/GameRoutes";
-import { GameRepository } from "./repositories/GameRepository";
-import { GameService } from "./services/GameService";
-// import { FileModelService } from "./services/FileModelService";
-// import { ImageService } from "./services/ImageService";
-// import {logger} from './utils/logger';
-// import {Logger} from 'winston';
 import { Router } from "express";
-
+import { Logger } from "winston";
+import { GameRepository } from "./repositories/GameRepository";
+import { getGameRoutes } from "./routes/GameRoutes";
+import { getUserRoutes } from "./routes/UserRoutes";
+import { GameService } from "./services/GameService";
+import { switchLogger } from "./utils/logger";
 
 export class Bootstrap {
 
-    //Builder patter for mongooseModel instantiation
+    // Builder patter for mongooseModel instantiation
 
     public static gameRoutes: Router;
     public static gameService: GameService;
-    // public static fileModelService: FileModelService;
-    // public static imageService: ImageService;
-    // public static logger: Logger;
+    public static userRoutes: Router;
+    public static logger: Logger;
 
     constructor() { }
 
     public setup(): void {
-        
+
         const gameRepository = new GameRepository();
-        // const fileModelService = new FileModelService(modelRepository);
-        // const imageService =  new ImageService(modelRepository);
+
         const gameService =  new GameService(gameRepository);
 
         const gameRoutes = getGameRoutes();
+        const userRoutes = getUserRoutes();
 
+        Bootstrap.logger = switchLogger;
         Bootstrap.gameRoutes = gameRoutes;
         Bootstrap.gameService = gameService;
-        // Bootstrap.fileModelService = fileModelService;
-        // Bootstrap.imageService = imageService;
-        // Bootstrap.logger = logger;
-
+        Bootstrap.userRoutes = userRoutes;
     }
 }
