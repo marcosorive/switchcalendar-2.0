@@ -2,17 +2,10 @@
 import * as mongoose from "mongoose";
 import { IGame } from "../interfaces/IGame";
 
-const GameSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    releaseDate: { type: Date, required: true},
-    // Add all the other fields + uuid.
-});
 
-const GameMongoose = mongoose.model<IGame>("Game", GameSchema);
+export class GameRepository {
 
-export class GameRepository{
-
-    constructor(private Game = GameMongoose) { }
+    constructor(private Game: mongoose.Model<IGame>) { }
 
     public async getAllGames(): Promise<IGame[]> {
         try{

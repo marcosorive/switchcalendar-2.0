@@ -1,4 +1,5 @@
 import React, { FormEvent } from 'react';
+import {FormErrorList} from "./FormErrorList"
 
 type RegisterProps = {};
 type RegisterState = {
@@ -7,7 +8,9 @@ type RegisterState = {
     pass1: string,
     pass2: string,
     registerSuccess: boolean,
-    error: boolean
+    formErrorMessages: string[],
+    fatalError: boolean,
+    response: any,
 };
 export class RegisterForm extends React.Component<RegisterProps,RegisterState>{
 
@@ -19,7 +22,9 @@ export class RegisterForm extends React.Component<RegisterProps,RegisterState>{
             pass1:"",
             pass2:"",
             registerSuccess: false,
-            error:false,
+            formErrorMessages: [],
+            fatalError:false,
+            response: undefined,
         }
         this.handleSubmitForm = this.handleSubmitForm.bind(this);
         this.handleChangeInput = this.handleChangeInput.bind(this);
@@ -41,9 +46,8 @@ export class RegisterForm extends React.Component<RegisterProps,RegisterState>{
 
     async handleSubmitForm(event:FormEvent): Promise<void>{
         event.preventDefault();
-        console.log("Submited")
         try{
-            const response = await fetch("/api/users/register",{
+            const response:any = await fetch("/api/users/register",{
                 method: "post",
                 headers:{
                     'Content-Type': 'application/json'
@@ -55,21 +59,26 @@ export class RegisterForm extends React.Component<RegisterProps,RegisterState>{
                     pass2: this.state.pass2,
                 }),
             })
-            if(response.ok && response.status === 200){
+            if(await response.ok && await response.status === 200){
                 this.setState({
                     registerSuccess:true,
                 });
+            }else{
+                const res = await response.json()
+                this.setState({
+                    formErrorMessages: await res.Messages,
+                })
             }
-        }catch{
+        }catch (error) {
             this.setState({
-                error:true,
+                fatalError:true,
             });
         }
     }
 
     render(){
-        if(this.state.error){
-            return(<h1>There's been an error</h1>)
+        if(this.state.fatalError){
+            return(<h1>There's been an Fatal error</h1>)
         }else if(this.state.registerSuccess){
             return(<h1>Register ok!</h1>)
         }else{
@@ -91,6 +100,7 @@ export class RegisterForm extends React.Component<RegisterProps,RegisterState>{
                         <label htmlFor="pass2">Confirm password</label>
                         <input type="password" name="pass2" onChange={this.handleChangeInput}/>
                     </div>
+                    <FormErrorList errorList={this.state.formErrorMessages}/>
                     <input type="submit" value="Register"/>
                 </form>
             )
